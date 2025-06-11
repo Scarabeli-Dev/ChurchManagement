@@ -1,6 +1,8 @@
+using Church.Domain.Enums;
+
 namespace Church.Domain.Entities;
 
-public class Church
+public class ChurchRegister
 {
   public int Id { get; set; }
   public string Name { get; set; } = string.Empty;

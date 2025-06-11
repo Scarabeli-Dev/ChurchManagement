@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddApiSwagger();
 builder.AddPersistence();
 builder.Services.AddCors();
-builder.AddAutenticationJwt();
+builder.AddAuthenticationJwt();
 builder.AddAuthParameters();
 builder.AddJsonConfiguration();
 

@@ -1,55 +1,58 @@
+﻿using Church.API.AppServicesExtensions;
+using Church.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+using Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-builder.Services.AddControllers()
-        .AddJsonOptions(options =>
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
-        )
-        .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
-            Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        );
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddInfrastructureAPI(builder.Configuration);
-
+// Services Configuration
+builder.AddApiSwagger();
+builder.AddPersistence<ChurchContext>(builder.Configuration.GetConnectionString("DefaultConnection") ?? "");
 builder.Services.AddCors();
+builder.AddAuthenticationJwt();
+builder.AddJsonConfiguration();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// Endpoints Configuration
+
+
+// Middlewares
+var environment = app.Environment;
+app.UseExceptionHandling(environment)
+    .UseSwaggerMiddleware()
+    .UseAppCors();
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseRouting();
 
-app.MapGet("/weatherforecast", () =>
+app.UseAuthorization();
+
+// Migrations Database Update
+using (var scope = app.Services.CreateScope())
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    var db = scope.ServiceProvider.GetRequiredService<ChurchContext>();
+
+    try
+    {
+        db.Database.Migrate();
+        Console.WriteLine("✅ Migrations applied successfully!");
+        var pending = db.Database.GetPendingMigrations();
+        if (!pending.Any())
+        {
+            Console.WriteLine("Nenhuma migração pendente.");
+        }
+        else
+        {
+            Console.WriteLine($"{pending.Count()} migration(s) pendente(s).");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Migration failed: {ex.Message}");
+        throw; // Opcional, relança a exceção se quiser falhar a execução
+    }
+}
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

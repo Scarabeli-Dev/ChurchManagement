@@ -1,3 +1,5 @@
+using Church.Domain.Enums;
+
 namespace Church.Domain.Entities;
 
 public class Asset
