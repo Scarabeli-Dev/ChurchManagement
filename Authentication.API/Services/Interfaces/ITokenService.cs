@@ -1,6 +1,6 @@
-using Authentication.APIModels;
+using Authentication.API.Models;
 
-namespace Authentication.APIServices.Interfaces;
+namespace Authentication.API.Services.Interfaces;
 
 public interface ITokenService
 {

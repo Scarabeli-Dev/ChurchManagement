@@ -1,9 +1,9 @@
-using Authentication.APIModels;
+using Authentication.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Authentication.APIData
+namespace Authentication.API.Data
 {
   public class AuthApiContext : IdentityDbContext<User, Role, Guid,
                                                       IdentityUserClaim<Guid>, UserRoles, IdentityUserLogin<Guid>,

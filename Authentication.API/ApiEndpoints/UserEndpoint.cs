@@ -1,11 +1,11 @@
-using Authentication.APIData;
-using Authentication.APIModels;
-using Authentication.APIModels.ViewModels;
+using Authentication.API.Data;
+using Authentication.API.Models;
+using Authentication.API.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Authentication.APIApiEndpoints;
+namespace Authentication.API.ApiEndpoints;
 
 public static class UsersEndpoints
 {

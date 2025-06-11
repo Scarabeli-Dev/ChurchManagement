@@ -1,4 +1,4 @@
-namespace Authentication.APIAppServicesExtensions;
+namespace Authentication.API.AppServicesExtensions;
 
 public static class ApplicationBuilderExtensions
 {

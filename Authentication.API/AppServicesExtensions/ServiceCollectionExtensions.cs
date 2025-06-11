@@ -1,7 +1,7 @@
-using Authentication.APIData;
-using Authentication.APIModels;
-using Authentication.APIServices;
-using Authentication.APIServices.Interfaces;
+using Authentication.API.Data;
+using Authentication.API.Models;
+using Authentication.API.Services;
+using Authentication.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +11,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Authentication.APIAppServicesExtensions;
+namespace Authentication.API.AppServicesExtensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -66,14 +66,13 @@ public static class ServiceCollectionExtensions
   {
     builder.Services.AddScoped<ITokenService, TokenService>();
 
-    string mySqlConnection =
+    string npgSqlConnection =
         builder.Configuration.GetConnectionString("DefaultConnection")
         ?? throw new
         Exception("A string de conexão 'DefaultConnection' não foi configurada.");
 
     builder.Services.AddDbContext<AuthApiContext>(options =>
-                        options.UseMySql(mySqlConnection,
-                        ServerVersion.AutoDetect(mySqlConnection)));
+                        options.UseNpgsql(npgSqlConnection));
 
     return builder;
   }

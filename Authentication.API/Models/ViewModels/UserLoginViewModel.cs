@@ -1,4 +1,4 @@
-namespace Authentication.APIModels.ViewModels
+namespace Authentication.API.Models.ViewModels
 {
   public class UserLoginViewModel
   {

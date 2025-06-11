@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Authentication.APIModels;
+namespace Authentication.API.Models;
 
 public class Role : IdentityRole<Guid>
 {

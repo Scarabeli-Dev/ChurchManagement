@@ -1,12 +1,12 @@
-using Authentication.APIModels;
-using Authentication.APIServices.Interfaces;
+using Authentication.API.Models;
+using Authentication.API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Authentication.APIServices;
+namespace Authentication.API.Services;
 
 public class TokenService : ITokenService
 {

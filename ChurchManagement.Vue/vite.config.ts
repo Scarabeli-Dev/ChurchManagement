@@ -14,7 +14,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: parseInt(process.env.PORT) ?? 5173,
+    port: parseInt(process.env.PORT) ?? "5173",
     proxy: {
       "/api": {
         target: process.env.services__authapi__https__0 || process.env.services__authapi__http__0,

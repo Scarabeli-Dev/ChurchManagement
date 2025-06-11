@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.APIModels;
+namespace Authentication.API.Models;
 
 public class UserRoles : IdentityUserRole<Guid>
 {
