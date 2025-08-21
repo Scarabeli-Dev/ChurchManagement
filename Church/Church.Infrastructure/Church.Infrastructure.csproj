@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Church.Domain\Church.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

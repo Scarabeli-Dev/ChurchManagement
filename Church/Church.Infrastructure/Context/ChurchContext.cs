@@ -14,8 +14,8 @@ public class ChurchContext : DbContext
     modelBuilder.ApplyConfigurationsFromAssembly(typeof(ChurchContext).Assembly);
   }
 
-  public DbSet<Asset> Asset { get; set; }
-  public DbSet<AssetType> AssetType { get; set; }
-  public DbSet<Convention> Convention { get; set; }
+  public DbSet<Asset> Assets { get; set; }
+  public DbSet<AssetType> AssetsType { get; set; }
+  public DbSet<Convention> Conventions { get; set; }
   public DbSet<ChurchRegister> Church { get; set; }
 }

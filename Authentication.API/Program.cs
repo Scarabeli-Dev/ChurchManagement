@@ -1,17 +1,23 @@
 using Authentication.API.ApiEndpoints;
 using Authentication.API.AppServicesExtensions;
 using Authentication.API.Data;
+using Authentication.API.Services;
+using Authentication.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Services Configuration
 builder.AddApiSwagger();
-builder.AddPersistence();
+builder.AddPersistence<AuthApiContext>("AuthDB");
 builder.Services.AddCors();
-builder.AddAuthenticationJwt();
+builder.AddAuthenticationJwt(); 
 builder.AddAuthParameters();
 builder.AddJsonConfiguration();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 
 var app = builder.Build();
 

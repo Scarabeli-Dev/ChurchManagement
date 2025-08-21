@@ -2,15 +2,20 @@
 using Church.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Repositories;
+using Shared.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Services Configuration
 builder.AddApiSwagger();
-builder.AddPersistence<ChurchContext>(builder.Configuration.GetConnectionString("DefaultConnection") ?? "");
+builder.AddPersistence<ChurchContext>("ChurchDB");
 builder.Services.AddCors();
 builder.AddAuthenticationJwt();
 builder.AddJsonConfiguration();
+
+// Repositories
+builder.Services.AddScoped<IGeneralRepository, GeneralRepository<ChurchContext>>();
 
 var app = builder.Build();
 

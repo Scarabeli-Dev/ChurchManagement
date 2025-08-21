@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using System.Data;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -62,15 +63,32 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static WebApplicationBuilder AddPersistence<TContext>(this WebApplicationBuilder builder, string connectionName) where TContext : DbContext
+    public static WebApplicationBuilder AddPersistence<TContext>(this WebApplicationBuilder builder, string databaseName) where TContext : DbContext
     {
-        string npgSqlConnection =
-            connectionName
-            ?? throw new
-            Exception("A string de conexão 'DefaultConnection' não foi configurada.");
+        //string connectionString = "";
+        //string npgSqlConnection =
+        //    connectionName
+        //    ?? throw new
+        //    Exception("A string de conexão 'DefaultConnection' não foi configurada.");
+        //builder.Services.AddDbContext<TContext>(options =>
+        //                    options.UseNpgsql(npgSqlConnection));
 
+        //return builder;
+        var baseConn = builder.Configuration
+            .GetConnectionString("DefaultConnection")
+            ?? throw new Exception("Connection string 'DefaultConnection' não encontrada em appsettings.json");
+
+        // 2) Cria um builder para facilitar a troca apenas da propriedade Database
+        var npgsqlBuilder = new NpgsqlConnectionStringBuilder(baseConn)
+        {
+            Database = databaseName
+        };
+
+        // 3) Registra o DbContext usando o connectionString modificado
+        Console.WriteLine($"Using connection string: {npgsqlBuilder.ConnectionString}");
         builder.Services.AddDbContext<TContext>(options =>
-                            options.UseNpgsql(npgSqlConnection));
+            options.UseNpgsql(npgsqlBuilder.ConnectionString)
+        );
 
         return builder;
     }

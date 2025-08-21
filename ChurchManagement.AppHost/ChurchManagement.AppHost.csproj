@@ -13,15 +13,16 @@
 
 	<ItemGroup>
 		<PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />
-		<PackageReference Include="Aspire.Hosting.MySql" Version="9.3.0" />
 		<PackageReference Include="Aspire.Hosting.NodeJs" Version="9.3.0" />
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.3.0" />
 		<PackageReference Include="Aspire.Hosting.Redis" Version="9.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Authentication.API\Authentication.API.csproj" />
 		<ProjectReference Include="..\Church\Church.API\Church.API.csproj" />
+		<ProjectReference Include="..\Members\Members.API\Members.API.csproj" />
 	</ItemGroup>
 
 	<Target Name="RestoreNpm" BeforeTargets="Build" Condition=" '$(DesignTimeBuild)' != 'true' ">
@@ -30,10 +31,8 @@
 		</ItemGroup>
 
 		<!-- Install npm packages if node_modules is missing -->
-		<Message Importance="Normal" Text="Installing npm packages for %(PackageJsons.RelativeDir)"
-			Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
-		<Exec Command="npm install" WorkingDirectory="%(PackageJsons.RootDir)%(PackageJsons.Directory)"
-			Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
+		<Message Importance="Normal" Text="Installing npm packages for %(PackageJsons.RelativeDir)" Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
+		<Exec Command="npm install" WorkingDirectory="%(PackageJsons.RootDir)%(PackageJsons.Directory)" Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
 	</Target>
 
 </Project>

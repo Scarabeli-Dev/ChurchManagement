@@ -4,7 +4,7 @@ namespace Church.Domain.Entities;
 
 public class Asset
 {
-  public int Id { get; set; }
+  public Guid Id { get; set; }
   public string Item { get; set; } = string.Empty;
   public string? SerialNumber { get; set; }
   public int Quantity { get; set; }

@@ -4,7 +4,7 @@ namespace Church.Domain.Entities;
 
 public class ChurchRegister
 {
-  public int Id { get; set; }
+  public Guid Id { get; set; }
   public string Name { get; set; } = string.Empty;
   public string RegistrationNumber { get; set; } = string.Empty;
   public string Address { get; set; } = string.Empty;
